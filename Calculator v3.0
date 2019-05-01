@@ -1,0 +1,40 @@
+from RPN_converter import RPN_converter
+
+
+def solving(Primer):
+    print(RPN_converter(Primer))
+    Primer = RPN_converter(Primer)
+    key = 0
+    while key < len(Primer):
+        if Primer[key] == "-":
+            Primer[key - 2] = Primer[key - 2] - Primer[key - 1]
+            del Primer[key - 1]
+            del Primer[key - 1]
+            key = 0
+        elif Primer[key] == "+":
+            Primer[key - 2] = Primer[key - 2] + Primer[key - 1]
+            del Primer[key - 1]
+            del Primer[key - 1]
+            key = 0
+        elif Primer[key] == "*":
+            Primer[key - 2] = Primer[key - 2] * Primer[key - 1]
+            del Primer[key - 1]
+            del Primer[key - 1]
+            key = 0
+        elif Primer[key] == "/":
+            Primer[key - 2] = Primer[key - 2] / Primer[key - 1]
+            del Primer[key - 1]
+            del Primer[key - 1]
+            key = 0
+        elif Primer[key] == "^":
+            Primer[key - 2] = Primer[key - 2] ** Primer[key - 1]
+            del Primer[key - 1]
+            del Primer[key - 1]
+            key = 0
+        key += 1
+    return Primer[0]
+
+
+if __name__ == "__main__":
+    Task = input('Enter primer: ')
+    print(solving(Task))
