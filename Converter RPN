@@ -1,0 +1,60 @@
+
+
+def priority(symbol):
+    if symbol == "^":
+        return 4
+    elif symbol == "*" or symbol == "/":
+        return 3
+    elif symbol == "+" or symbol == "-":
+        return 2
+    elif symbol == "(" or symbol == ")":
+        return 1
+
+primer: str = input("Enter primer:")
+flag = False
+primer_full = []
+for key in range(len(primer)):
+    if (primer[key] < "0" or primer[key] > "9") and primer[key] != ".":
+        primer_full.append(primer[key])
+        flag = False
+    if "0" <= primer[key] <= "9" or primer[key] == ".":
+        if flag is False:
+            primer_full.append(primer[key])
+            flag = True
+        else:
+            primer_full[len(primer_full)-1] = primer_full[len(primer_full)-1] + primer[key]
+
+print(primer_full)
+primer = []
+stack = []
+key = 0
+while key < len(primer_full):
+    if primer_full[key].isnumeric():
+        primer.append(primer_full[key])
+    else:
+        if primer_full[key] == "(":
+            stack.append(primer_full[key])
+        elif primer_full[key] == ")":
+            while "(" in stack:
+                if stack[len(stack) - 1] != "(":
+                    primer.append(stack[len(stack) - 1])
+                del stack[len(stack) - 1]
+        else:
+            if len(stack) > 0 and priority(primer_full[key]) > priority(stack[len(stack) - 1]) or len(stack) == 0:
+                stack.append(primer_full[key])
+            else:
+                primer.append(stack[len(stack) - 1])
+                del stack[len(stack) - 1]
+                key -= 1
+    print(stack)
+    key += 1
+while len(stack) > 0:
+    primer.append(stack[len(stack) - 1])
+    del stack[len(stack) - 1]
+print(primer, stack)
+"""for key in range(len(primer)):
+    if primer[key].isnumeric():
+        if "." in primer[key]:
+            primer[key] = float(primer[key])
+        else:
+            primer[key] = int(primer[key])"""
